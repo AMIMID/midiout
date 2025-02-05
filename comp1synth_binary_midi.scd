@@ -1,3 +1,8 @@
+MIDIClient.init;
+MIDIClient.destinations;
+~m=MIDIOut.new(0);
+~m.latency = 0;
+
 (
 Server.default = s = Server.local;
 ////server setup
@@ -485,13 +490,7 @@ fundamental=(55);
 freq=(fundamental*octave);
 
 		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		///mag_o=Select.kr(pl1,~magz);
 
-
-	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
-	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
-	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
-	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
@@ -511,15 +510,15 @@ ton3=n3.abs.linlin(0,1,1,2*mult3);
 	pitch2=(freq*ton2).round(0.0000001);
 	pitch3=(freq*ton3).round(0.0000001);
 
-				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
-
-					///%2==0 simulates .even
-
-					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate);
-
+				~m.noteOn(chan, note: pitch1.cpsmidi);
+				~m.noteOn(chan, note: pitch2.cpsmidi);
+				~m.noteOn(chan, note: pitch3.cpsmidi);
+				~m.noteOff(chan, note: pitch1.cpsmidi);
+				~m.noteOff(chan, note: pitch2.cpsmidi);
+				~m.noteOff(chan, note: pitch3.cpsmidi);
 
 osc1=VBAP.ar(4,
-				SinOsc.ar(pitch1,mul:amp1,phase:0),
+					SoundIn.ar(0,amp1),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -527,7 +526,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2,phase:0),
+						SoundIn.ar(1,amp2),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -535,7 +534,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						SinOsc.ar(pitch3,mul:amp3,phase:0),
+						SoundIn.ar(2,amp1),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
