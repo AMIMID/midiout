@@ -88,17 +88,18 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
-var angle=0;
+var angle=0,ang=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
-
 
 ~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
-		360.do{
+		45.do{
+		8.do{
 azimuth=(13).collect{
 
-			az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
-			el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
+
+			az1 = (angle+ang+(45*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
+				el1 = (angle+(ang/2)+((45/2)*2.pow(pl1/12))).wrap(90.neg,90);
 		pl1=(pl1+1).mod(13);
 
 		sph1=Spherical(1,(az1.degrad),(el1.degrad)).theta.round(0.00001);
@@ -107,8 +108,8 @@ azimuth=(13).collect{
 
 elevation=(13).collect{
 
-				az2 = (angle+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
-			el2 = (angle+(180*2.pow(pl2/12))).wrap(90.neg,90);
+				az2 = (angle+ang+(45*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
+			el2 = (angle+(ang/2)+((45/2)*2.pow(pl2/12))).wrap(90.neg,90);
 		pl2=(pl2+1).mod(13);
 
 		sph2=Spherical(1,(az2.degrad),(el2.degrad)).phi.round(0.00001);
@@ -117,15 +118,16 @@ elevation=(13).collect{
 
 magnitudex=(13).collect{
 
-			az3 = (angle+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
-			el3 = (angle+ (180*2.pow(pl3/12))).wrap(90.neg,90);
+			az3 = (angle+ang+(45*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
+			el3 = (angle+(ang/2)+ ((45/2)*2.pow(pl3/12))).wrap(90.neg,90);
 		pl3=(pl3+1).mod(13);
-	sph3=Spherical(1,(az3.degrad),(el3.degrad));
-	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 
+	sph3=Spherical(1,(az3.degrad),(el3.degrad));
+	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
+*/
 ////for in-between harmonics multiply sin(phi) after cos, when m is 2 then harm 3/2 is formed in oder 3, when m is 3 harm 4/3 is formed in oder 4 and when m is 3 for theta and 2 for phi harm 4/2 is formed for order4//////same for y axis
 
-		 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
+		mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
 			cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*
 		 	Complex(sin((sph3.phi.round(0.00001)*(m_x-1)).wrap((pi/2).neg,(pi/2))),sin((sph3.phi.round(0.00001)*(m_x-1)).wrap((pi/
 		 	2).neg,(pi/2)))).rho*
@@ -135,8 +137,8 @@ magnitudex=(13).collect{
 
 magnitudey=(13).collect{
 
-			az4 = (angle+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
-			el4 = (angle+(180*2.pow(pl4/12))).wrap(90.neg,90);
+			az4 = (angle+ang+(45*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
+			el4 = (angle+(ang/2)+((45/2)*2.pow(pl4/12))).wrap(90.neg,90);
 		pl4=(pl4+1).mod(13);
 
 	sph4=Spherical(1,(az4.degrad),(el4.degrad));
@@ -145,12 +147,15 @@ magnitudey=(13).collect{
 		sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
 		Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/
 		2)))).rho)*sph4.rho;
+//		mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
+//Complex(sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2))),sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2)))).rho*
+//Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
 
 magnitudez=(13).collect{
 
-			az5 = (angle+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
-			el5 = (angle+(180*2.pow(pl5/12))).wrap(90.neg,90);
+			az5 = (angle+ang+(45*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
+				el5 = (angle+(ang/2)+((45/2)*2.pow(pl5/12))).wrap(90.neg,90);
 		pl5=(pl5+1).mod(13);
 
 		sph5=Spherical(1,(az5.degrad),(el5.degrad));
@@ -161,12 +166,13 @@ mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
+			};ang=(ang+45).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez
 };angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez};
 }.value;
 (
-~magx=(~magx).round(0.000000001)/(2.sqrt);
-			~magy=(~magy).round(0.000000001)/(2.sqrt);
-			~magz=(~magz).round(0.000000001)/(2.sqrt);
+~magx=~magx/(2.sqrt);
+~magy=~magy/(2.sqrt);
+~magz=~magz/(2.sqrt);
  );
 );
 //////////////////////////////////////////////////////// durs
@@ -264,6 +270,7 @@ SynthDef.new(\ospace1, {
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
 	var pitch;
+				var magx,magy,magz;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -284,7 +291,10 @@ SynthDef.new(\ospace1, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-		mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+	//	mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+				magx=Cartesian(Select.kr(pl1,~magx), 0,0);
+				magy=Cartesian(0, Select.kr(pl1,~magy),0);
+				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				sphere=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
@@ -311,7 +321,7 @@ ton3=n3.abs.linlin(0,1,1,2)*mult3;
 				~m.noteOff(chan, note: pitch3.cpsmidi);
 
 osc1=VBAP.ar(4,
-					SoundIn.ar(0,amp1*mag.rho.round(0.00000001)),
+					SoundIn.ar(0,amp1*magx.rho.round(0.00000001)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -319,7 +329,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SoundIn.ar(1,amp2*mag.rho.round(0.00000001)),
+						SoundIn.ar(1,amp2*magy.rho.round(0.00000001)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -327,7 +337,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						SoundIn.ar(2,amp3*mag.rho.round(0.00000001)),
+						SoundIn.ar(2,amp3*magz.rho.round(0.00000001)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -349,27 +359,60 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 ////////////list
 	({
-		var n=1;
-		~list1=(360*12).collect{
+		var n=1.neg;
+		~list1=(45*8*13).collect{
 		n=n+1;
 		}
 		}.value
 	);
 
-	~dur=[1/2,1,1,1/3,1/2,1/5,1,1/2];
 
 //////////pattern for mobius strib of sequential or parallel play of directions
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur1,1),
-			//\dur,Pxrand(~dur,inf),
-			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,13,inf),
+			//\dur,Pseq(~dur1,1),
+			\dur,1,
+			//\pl1,Pbrown(0,4680,13,inf),
+	\pl1,Pseq([
+				Pseq(
+				[Pseq(Array.series(13,0,1),1),Pseq(Array.series(13,13,1),1),Pseq(Array.series(13,26,1),1),Pseq(Array.series(13,39,1),1),
+				Pseq(Array.series(13,52,1),1),Pseq(Array.series(13,65,1),1),Pseq(Array.series(13,78,1),1),Pseq(Array.series(13,91,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
+				Pseq(Array.series(13,260,1),1),Pseq(Array.series(13,273,1),1),Pseq(Array.series(13,286,1),1),Pseq(Array.series(13,299,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,312,1),1),Pseq(Array.series(13,325,1),1),Pseq(Array.series(13,338,1),1),Pseq(Array.series(13,351,1),1),
+				Pseq(Array.series(13,364,1),1),Pseq(Array.series(13,377,1),1),Pseq(Array.series(13,390,1),1),Pseq(Array.series(13,403,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,416,1),1),Pseq(Array.series(13,429,1),1),Pseq(Array.series(13,442,1),1),Pseq(Array.series(13,455,1),1),
+				Pseq(Array.series(13,468,1),1),Pseq(Array.series(13,481,1),1),Pseq(Array.series(13,494,1),1),Pseq(Array.series(13,507,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,520,1),1),Pseq(Array.series(13,533,1),1),Pseq(Array.series(13,546,1),1),Pseq(Array.series(13,559,1),1),
+				Pseq(Array.series(13,572,1),1),Pseq(Array.series(13,585,1),1),Pseq(Array.series(13,598,1),1),Pseq(Array.series(13,611,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,624,1),1),Pseq(Array.series(13,637,1),1),Pseq(Array.series(13,650,1),1),Pseq(Array.series(13,663,1),1),
+				Pseq(Array.series(13,676,1),1),Pseq(Array.series(13,689,1),1),Pseq(Array.series(13,702,1),1),Pseq(Array.series(13,715,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,728,1),1),Pseq(Array.series(13,741,1),6,1),Pseq(Array.series(13,754,1),1),Pseq(Array.series(13,767,1),1),
+				Pseq(Array.series(13,780,1),1),Pseq(Array.series(13,793,1),1),Pseq(Array.series(13,806,1),1),Pseq(Array.series(13,819,1),1)]
+				,1)
+			],inf),
+			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-			\mult1,Prand([1,2,4,8],inf),
+		\mult1,Prand([1,2,4,8],inf),
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
 			//\amp,Pseq(~r,inf);///l system
@@ -377,10 +420,44 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ));
 
 ~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur2,1),
-			//\dur,Pxrand(~dur,inf),
-			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,13,inf),
+			//\dur,Pseq(~dur2,1),
+			\dur,1,
+			\pl1,Pseq([
+				Pseq(
+				[Pseq(Array.series(13,0,1),1),Pseq(Array.series(13,13,1),1),Pseq(Array.series(13,26,1),1),Pseq(Array.series(13,39,1),1),
+				Pseq(Array.series(13,52,1),1),Pseq(Array.series(13,65,1),1),Pseq(Array.series(13,78,1),1),Pseq(Array.series(13,91,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
+				Pseq(Array.series(13,260,1),1),Pseq(Array.series(13,273,1),1),Pseq(Array.series(13,286,1),1),Pseq(Array.series(13,299,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,312,1),1),Pseq(Array.series(13,325,1),1),Pseq(Array.series(13,338,1),1),Pseq(Array.series(13,351,1),1),
+				Pseq(Array.series(13,364,1),1),Pseq(Array.series(13,377,1),1),Pseq(Array.series(13,390,1),1),Pseq(Array.series(13,403,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,416,1),1),Pseq(Array.series(13,429,1),1),Pseq(Array.series(13,442,1),1),Pseq(Array.series(13,455,1),1),
+				Pseq(Array.series(13,468,1),1),Pseq(Array.series(13,481,1),1),Pseq(Array.series(13,494,1),1),Pseq(Array.series(13,507,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,520,1),1),Pseq(Array.series(13,533,1),1),Pseq(Array.series(13,546,1),1),Pseq(Array.series(13,559,1),1),
+				Pseq(Array.series(13,572,1),1),Pseq(Array.series(13,585,1),1),Pseq(Array.series(13,598,1),1),Pseq(Array.series(13,611,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,624,1),1),Pseq(Array.series(13,637,1),1),Pseq(Array.series(13,650,1),1),Pseq(Array.series(13,663,1),1),
+				Pseq(Array.series(13,676,1),1),Pseq(Array.series(13,689,1),1),Pseq(Array.series(13,702,1),1),Pseq(Array.series(13,715,1),1)]
+				,1),
+				Pseq(
+				[Pseq(Array.series(13,728,1),1),Pseq(Array.series(13,741,1),6,1),Pseq(Array.series(13,754,1),1),Pseq(Array.series(13,767,1),1),
+				Pseq(Array.series(13,780,1),1),Pseq(Array.series(13,793,1),1),Pseq(Array.series(13,806,1),1),Pseq(Array.series(13,819,1),1)]
+				,1)
+			],inf),
+			//\pl1,Pbrown(0,4680,13,inf),
+			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -388,8 +465,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
 			//\amp,Pseq(~r,inf);///l system
-				\amp,1;
+			\amp,1;
 ));
+
+
 	);
 	TempoClock.default.tempo_(1/1);
 
@@ -402,6 +481,5 @@ sphere.theta.raddeg,sphere.phi.raddeg
 (
 ~aa.play;
 ~aaa.play;
-
 );
 s.record(numChannels:4);
