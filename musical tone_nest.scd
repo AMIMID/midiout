@@ -77,7 +77,6 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 }.value
 );
 
-
 //////////////////////////////////////////////////basis
 	(
 {
@@ -86,13 +85,41 @@ var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0,ang=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
+var durx,dury,durz;
+var sphx,sphy,sphz,azx,elx,azy,ely,azz,elz,plx=0,ply=0,plz=0;
+var num=1.neg;
 
-~az=[];~el=[];~magx=[];~magy=[];~magz=[];
+			~az=[];~el=[];~magx=[];~magy=[];~magz=[];~dur=[];
 
-		8.do{
+		45.do{
+durx=(13).collect{
+			azx = (angle+(360*2.pow(plx/12))).wrap(180.neg,180);  // Increment azimuth
+				elx = (angle+(180*2.pow(plx/12))).wrap(90.neg,90);
+		plx=(plx+1).mod(13);
+
+					sphx=Spherical(1,(azx.degrad),(elx.degrad)).x.round(0.000000001).abs.linlin(0,1,1,2);
+
+	};
+
+dury=(13).collect{
+		azy = (angle+(360*2.pow(ply/12))).wrap(180.neg,180);  // Increment azimuth
+			ely = (angle+(180*2.pow(ply/12))).wrap(90.neg,90);
+		ply=(ply+1).mod(13);
+
+		sphy=Spherical(1,(azy.degrad),(ely.degrad)).y.round(0.000000001).abs.linlin(0,1,1,2);
+
+	};
+durz=(13).collect{
+			azz = (angle+(360*2.pow(plz/12))).wrap(180.neg,180);  // Increment azimuth
+				elz = (angle+(180*2.pow(plz/12))).wrap(90.neg,90);
+		plz=(plz+1).mod(13);
+
+		sphz=Spherical(1,(azz.degrad),(elz.degrad)).z.round(0.000000001).abs.linlin(0,1,1,2);
+
+	};
+
 		8.do{
 azimuth=(13).collect{
-
 
 			az1 = (angle+ang+(45*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 				el1 = (angle+(ang/2)+((45/2)*2.pow(pl1/12))).wrap(90.neg,90);
@@ -162,8 +189,13 @@ mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
-			};ang=(ang+45).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez
-};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez};
+
+			};ang=(ang+45).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
+
+};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
+
+				13.do{ num=num+1; ~dur=~dur++durx.[num]++dury.[num]++durz.[num];};num=1.neg;
+			};
 }.value;
 (
 ~magx=~magx/(2.sqrt);
@@ -171,83 +203,6 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 ~magz=~magz/(2.sqrt);
  );
 );
-
-//////////////////////////////////////////////////////// durs
-
-	///binary basis
-
-	(
-{
-var angle1=0, angle2=0,value1,value2,n1=0,n2=0,re,im,angle=0;
-			~real=[];~imag=[];
-
-			(360).do {
-  re=12.collect{
-					n1=(n1+1);
-					angle1 = (angle + (n1*(pi/12))).wrap(0,2pi);
-					//angle1 = (angle + (pi/2)*2.pow(n1/12)).wrap(0,2pi);
-		//n1=(n1+1).mod(13);
-					value1=exp(Complex(0,1)*angle1).real.abs.round(0.00001);};
-  im=12.collect{
-					n2=(n2+1);
-					angle2 = (angle + (n2*(pi/12))).wrap(0,2pi);
-					//angle2 = (angle + (pi/2)*2.pow(n2/12)).wrap(0,2pi);
-		//n2=(n2+1).mod(13);
-		value2=exp(Complex(0,1)*angle2).imag.abs.round(0.00001);};
-
-				~real=~real++re; ~imag=~imag++im; n1=0;n2=0;
-				angle = (angle + (360-(360/1.6180339887499))).wrap(0, 360);
-			};
-}.value
-);
-
-	(
-{
-var dur=1,ph1,pl1=0,sph;
-///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
-//rythm=[1,1/1,1,1,1/1];
-
-~dur1 = (360*12).collect{
-			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
-			//ph1=~magz.[pl1];
-			//sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
-			sph=~real.[pl1];
-	//index1=rythm.wrapAt(pl7);
-	//pl7=pl7+1;
-	pl1=pl1+1;
-	//ph1=(ph1*dur).round(1/256);
-	//t1=ph1*index1;
-	ph1=(sph+dur).round(1/32);
-
-	};
-
-}.value;
-	{
-var dur=1,ph1,pl1=0,sph;
-///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
-//rythm=[1,1/1,1,1,1/1];
-
-~dur2 = (360*12).collect{
-			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
-			//ph1=~magz.[pl1];
-			//sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
-			sph=~imag.[pl1];
-	//index1=rythm.wrapAt(pl7);
-	//pl7=pl7+1;
-	pl1=pl1+1;
-	//ph1=(ph1*dur).round(1/256);
-	//t1=ph1*index1;
-	ph1=(sph+dur).round(1/32);
-
-	};
-
-}.value;
-	);
-//////////////dur randomization
-
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x1 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y1 = ~dur2.scramble;	}.value;
 
 
 		//////////////////////wavetable
@@ -381,92 +336,92 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			//\dur,Pseq(~dur1,1),
-			\dur,1,
+			\dur,Pseq(~dur,1),
+			//\dur,1,
 			//\pl1,Pbrown(0,4680,13,inf),
 			\n1,
 			Pseq([
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
+				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
 				,1)
-			],inf).poll,
+			],inf),
 	\pl1,Pseq([
 				Prand(
-				[Pseq(Array.rand(4,00,12),1),Pseq(Array.rand(4,13,25),1),Pseq(Array.rand(4,26,38),1),Pseq(Array.rand(4,39,51),1),
-				Pseq(Array.rand(4,52,64),1),Pseq(Array.rand(4,65,77),1),Pseq(Array.rand(4,78,90),1),Pseq(Array.rand(4,91,103),1)]
+				[Pseq(Array.rand(3,00,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
+				Pseq(Array.rand(3,52,64),1),Pseq(Array.rand(3,65,77),1),Pseq(Array.rand(3,78,90),1),Pseq(Array.rand(3,91,103),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,104,116),1),Pseq(Array.rand(4,117,129),1),Pseq(Array.rand(4,130,142),1),Pseq(Array.rand(4,143,155),1),
-				Pseq(Array.rand(4,156,168),1),Pseq(Array.rand(4,169,181),1),Pseq(Array.rand(4,182,194),1),Pseq(Array.rand(4,195,207),1)]
+				[Pseq(Array.rand(3,104,116),1),Pseq(Array.rand(3,117,129),1),Pseq(Array.rand(3,130,142),1),Pseq(Array.rand(3,143,155),1),
+				Pseq(Array.rand(3,156,168),1),Pseq(Array.rand(3,169,181),1),Pseq(Array.rand(3,182,194),1),Pseq(Array.rand(3,195,207),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,208,220),1),Pseq(Array.rand(4,221,233),1),Pseq(Array.rand(4,234,246),1),Pseq(Array.rand(4,247,259),1),
-				Pseq(Array.rand(4,260,272),1),Pseq(Array.rand(4,273,285),1),Pseq(Array.rand(4,286,298),1),Pseq(Array.rand(4,299,311),1)]
+				[Pseq(Array.rand(3,208,220),1),Pseq(Array.rand(3,221,233),1),Pseq(Array.rand(3,234,246),1),Pseq(Array.rand(3,247,259),1),
+				Pseq(Array.rand(3,260,272),1),Pseq(Array.rand(3,273,285),1),Pseq(Array.rand(3,286,298),1),Pseq(Array.rand(3,299,311),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,312,324),1),Pseq(Array.rand(4,325,337),1),Pseq(Array.rand(4,338,350),1),Pseq(Array.rand(4,351,363),1),
-				Pseq(Array.rand(4,364,376),1),Pseq(Array.rand(4,377,389),1),Pseq(Array.rand(4,390,401),1),Pseq(Array.rand(4,403,415),1)]
+				[Pseq(Array.rand(3,312,324),1),Pseq(Array.rand(3,325,337),1),Pseq(Array.rand(3,338,350),1),Pseq(Array.rand(3,351,363),1),
+				Pseq(Array.rand(3,364,376),1),Pseq(Array.rand(3,377,389),1),Pseq(Array.rand(3,390,401),1),Pseq(Array.rand(3,403,415),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,416,428),1),Pseq(Array.rand(4,429,441),1),Pseq(Array.rand(4,442,454),1),Pseq(Array.rand(4,455,467),1),
-				Pseq(Array.rand(4,468,480),1),Pseq(Array.rand(4,481,493),1),Pseq(Array.rand(4,494,506),1),Pseq(Array.rand(4,507,519),1)]
+				[Pseq(Array.rand(3,416,428),1),Pseq(Array.rand(3,429,441),1),Pseq(Array.rand(3,442,454),1),Pseq(Array.rand(3,455,467),1),
+				Pseq(Array.rand(3,468,480),1),Pseq(Array.rand(3,481,493),1),Pseq(Array.rand(3,494,506),1),Pseq(Array.rand(3,507,519),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,520,532),1),Pseq(Array.rand(4,533,545),1),Pseq(Array.rand(4,546,558),1),Pseq(Array.rand(4,559,571),1),
-				Pseq(Array.rand(4,572,584),1),Pseq(Array.rand(4,585,597),1),Pseq(Array.rand(4,598,610),1),Pseq(Array.rand(4,611,623),1)]
+				[Pseq(Array.rand(3,520,532),1),Pseq(Array.rand(3,533,545),1),Pseq(Array.rand(3,546,558),1),Pseq(Array.rand(3,559,571),1),
+				Pseq(Array.rand(3,572,584),1),Pseq(Array.rand(3,585,597),1),Pseq(Array.rand(3,598,610),1),Pseq(Array.rand(3,611,623),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,624,636),1),Pseq(Array.rand(4,637,649),1),Pseq(Array.rand(4,650,662),1),Pseq(Array.rand(4,663,675),1),
-				Pseq(Array.rand(4,676,688),1),Pseq(Array.rand(4,689,701),1),Pseq(Array.rand(4,702,714),1),Pseq(Array.rand(4,715,727),1)]
+				[Pseq(Array.rand(3,624,636),1),Pseq(Array.rand(3,637,649),1),Pseq(Array.rand(3,650,662),1),Pseq(Array.rand(3,663,675),1),
+				Pseq(Array.rand(3,676,688),1),Pseq(Array.rand(3,689,701),1),Pseq(Array.rand(3,702,714),1),Pseq(Array.rand(3,715,727),1)]
 				,1),
 				Prand(
-				[Pseq(Array.rand(4,728,740),1),Pseq(Array.rand(4,741,753),6,1),Pseq(Array.rand(4,754,766),1),Pseq(Array.rand(4,767,779),1),
-				Pseq(Array.rand(4,780,792),1),Pseq(Array.rand(4,793,805),1),Pseq(Array.rand(4,806,818),1),Pseq(Array.rand(4,819,831),1)]
+				[Pseq(Array.rand(3,728,740),1),Pseq(Array.rand(3,741,753),6,1),Pseq(Array.rand(3,754,766),1),Pseq(Array.rand(3,767,779),1),
+				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
 			],inf),
 			//\pl1,Pseq(~list1,inf),
@@ -480,109 +435,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 
-~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
-		//\dur,Pseq(~dur2,1),
-		\dur,1.5,
-			\n1,
-			Pseq([
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1),
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor)]
-				,1)
-			],inf),
-			\pl1,Pseq([
-				Prand(
-				[PdegreeToKey(Pseq(Array.rand(4,0,12),1),Scale.minor),Pseq(Array.rand(4,13,25),1),Pseq(Array.rand(4,26,38),1),Pseq(Array.rand(4,39,51),1),
-				Pseq(Array.rand(4,52,64),1),Pseq(Array.rand(4,65,77),1),Pseq(Array.rand(4,78,90),1),Pseq(Array.rand(4,91,103),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,104,116),1),Pseq(Array.rand(4,117,129),1),Pseq(Array.rand(4,130,142),1),Pseq(Array.rand(4,143,155),1),
-				Pseq(Array.rand(4,156,168),1),Pseq(Array.rand(4,169,181),1),Pseq(Array.rand(4,182,194),1),Pseq(Array.rand(4,195,207),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,208,220),1),Pseq(Array.rand(4,221,233),1),Pseq(Array.rand(4,234,246),1),Pseq(Array.rand(4,247,259),1),
-				Pseq(Array.rand(4,260,272),1),Pseq(Array.rand(4,273,285),1),Pseq(Array.rand(4,286,298),1),Pseq(Array.rand(4,299,311),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,312,324),1),Pseq(Array.rand(4,325,337),1),Pseq(Array.rand(4,338,350),1),Pseq(Array.rand(4,351,363),1),
-				Pseq(Array.rand(4,364,376),1),Pseq(Array.rand(4,377,389),1),Pseq(Array.rand(4,390,401),1),Pseq(Array.rand(4,403,415),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,416,428),1),Pseq(Array.rand(4,429,441),1),Pseq(Array.rand(4,442,454),1),Pseq(Array.rand(4,455,467),1),
-				Pseq(Array.rand(4,468,480),1),Pseq(Array.rand(4,481,493),1),Pseq(Array.rand(4,494,506),1),Pseq(Array.rand(4,507,519),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,520,532),1),Pseq(Array.rand(4,533,545),1),Pseq(Array.rand(4,546,558),1),Pseq(Array.rand(4,559,571),1),
-				Pseq(Array.rand(4,572,584),1),Pseq(Array.rand(4,585,597),1),Pseq(Array.rand(4,598,610),1),Pseq(Array.rand(4,611,623),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,624,636),1),Pseq(Array.rand(4,637,649),1),Pseq(Array.rand(4,650,662),1),Pseq(Array.rand(4,663,675),1),
-				Pseq(Array.rand(4,676,688),1),Pseq(Array.rand(4,689,701),1),Pseq(Array.rand(4,702,714),1),Pseq(Array.rand(4,715,727),1)]
-				,1),
-				Prand(
-				[Pseq(Array.rand(4,728,740),1),Pseq(Array.rand(4,741,753),6,1),Pseq(Array.rand(4,754,766),1),Pseq(Array.rand(4,767,779),1),
-				Pseq(Array.rand(4,780,792),1),Pseq(Array.rand(4,793,805),1),Pseq(Array.rand(4,806,818),1),Pseq(Array.rand(4,819,831),1)]
-				,1)
-			],inf),
-			//\pl1,Pbrown(0,4680,13,inf),
-			//\pl1,Pseq(~list1,inf),
-		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
-		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-				\mult1,Prand([1,2,4,8],inf),
-				\mult2,Prand([1,2,4,8],inf),
-				\mult3,Prand([1,2,4,8],inf),
-			//\amp,Pseq(~r,inf);///l system
-			\amp,1;
-));
-
-
 	);
-	TempoClock.default.tempo_(1/8);
+	TempoClock.default.tempo_(3/1);
 
 
 
@@ -592,7 +446,6 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 (
 ~aa.play;
-~aaa.play;
 );
 
 s.record(numChannels:4);
