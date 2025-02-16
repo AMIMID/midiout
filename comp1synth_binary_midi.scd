@@ -371,8 +371,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			//\dur,Pseq(~dur1,1),
-			\dur,1,
+			\dur,Pseq(~dur1,1),
+			//\dur,1,
 			//\pl1,Pbrown(0,4680,13,inf),
 	\pl1,Pseq([
 				Pseq(
@@ -381,7 +381,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
-				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(Array.series(13,195,1),1)]
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
@@ -419,9 +419,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 
+
 ~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
-			//\dur,Pseq(~dur2,1),
-			\dur,1,
+			\dur,Pseq(~dur2,1),
+			//\dur,1,
 			\pl1,Pseq([
 				Pseq(
 				[Pseq(Array.series(13,0,1),1),Pseq(Array.series(13,13,1),1),Pseq(Array.series(13,26,1),1),Pseq(Array.series(13,39,1),1),
@@ -429,7 +430,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
-				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(Array.series(13,195,1),1)]
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
