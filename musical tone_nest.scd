@@ -234,7 +234,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1,n1=0;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=2;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -342,54 +342,54 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\n1,
 			Pseq([
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1),
 				Prand(
-				[PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),
-				PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor),PdegreeToKey(Pseq(Array.rand(3,0,12),1),Scale.minor)]
+				[PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
+				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1)
-			],inf),
+			],inf).poll,
 	\pl1,Pseq([
 				Prand(
 				[Pseq(Array.rand(3,00,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
@@ -436,7 +436,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ));
 
 	);
-	TempoClock.default.tempo_(3/1);
+	TempoClock.default.tempo_(1/1);
 
 
 
