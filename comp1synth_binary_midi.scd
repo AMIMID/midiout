@@ -85,18 +85,47 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 //////////////////////////////////////////////////basis
 	(
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=2;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0,ang=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
+var durx,dury,durz;
+var sphx,sphy,sphz,azx,elx,azy,ely,azz,elz,plx=0,ply=0,plz=0;
+var num=1.neg;
+var az=[],el=[],magx=[],magy=[],magz=[];
 
-~az=[];~el=[];~magx=[];~magy=[];~magz=[];
+			~az=[];~el=[];~magx=[];~magy=[];~magz=[];~dur=[];
 
 		45.do{
+durx=(13).collect{
+			azx = (angle+(360*2.pow(plx/12))).wrap(180.neg,180);  // Increment azimuth
+				elx = (angle+(180*2.pow(plx/12))).wrap(90.neg,90);
+		plx=(plx+1).mod(13);
+
+					sphx=Spherical(1,(azx.degrad),(elx.degrad)).x.round(0.000000001).abs.linlin(0,1,1,2);
+
+	};
+
+dury=(13).collect{
+		azy = (angle+(360*2.pow(ply/12))).wrap(180.neg,180);  // Increment azimuth
+			ely = (angle+(180*2.pow(ply/12))).wrap(90.neg,90);
+		ply=(ply+1).mod(13);
+
+		sphy=Spherical(1,(azy.degrad),(ely.degrad)).y.round(0.000000001).abs.linlin(0,1,1,2);
+
+	};
+durz=(13).collect{
+			azz = (angle+(360*2.pow(plz/12))).wrap(180.neg,180);  // Increment azimuth
+				elz = (angle+(180*2.pow(plz/12))).wrap(90.neg,90);
+		plz=(plz+1).mod(13);
+
+		sphz=Spherical(1,(azz.degrad),(elz.degrad)).z.round(0.000000001).abs.linlin(0,1,1,2);
+
+	};
+
 		8.do{
 azimuth=(13).collect{
-
 
 			az1 = (angle+ang+(45*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 				el1 = (angle+(ang/2)+((45/2)*2.pow(pl1/12))).wrap(90.neg,90);
@@ -166,8 +195,13 @@ mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
-			};ang=(ang+45).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez
-};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez};
+
+			};ang=(ang+45).wrap(0,360);az=az++azimuth;el=el++elevation;magx=magx++magnitudex;magy=magy++magnitudey;magz=magz++magnitudez;
+
+};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++az;~el=~el++el;~magx=~magx++magx;~magy=~magy++magy;~magz=~magz++magz;
+
+				13.do{ num=num+1; ~dur=~dur++durx.[num]++dury.[num]++durz.[num];};num=1.neg;
+			};
 }.value;
 (
 ~magx=~magx/(2.sqrt);
