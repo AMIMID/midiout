@@ -48,7 +48,7 @@ var dict = IdentityDictionary[\A -> "AB", \B -> "A"];
 //These are the production rules of the L-system
 var word = "A";
 var string_temp = "";
-var iter = 16;
+var iter = 24;
 
 //These are diction for the mapping of the alphabet to "artistic" parameters: degrees in a scale, beat occurrence, etc.
 
@@ -320,7 +320,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 };angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
 
-				13.do{ num=num+1; ~dur=~dur++durx.[num]++dury.[num]++durz.[num];};num=1.neg;};
+				12.do{ num=num+1; ~dur=~dur++durx.[num]++dury.[num]++durz.[num];};num=1.neg;};
 }.value;
 (
 ~magx=~magx/(2.sqrt);
@@ -360,7 +360,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=2;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -393,7 +393,7 @@ SynthDef.new(\ospace1, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-sphere=Spherical(8,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(128,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -414,13 +414,10 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 	pitch2=(freq*ton2).round(0.0000001);
 	pitch3=(freq*ton3).round(0.0000001);
 
-				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
-
-					///2%2==0 simulates .even
-
+		phase=sphere.theta+sphere.phi;
 
 osc1=VBAP.ar(4,
-					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:0),
+					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -428,7 +425,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2*magy.rho.round(0.00000001),phase:0),
+						SinOsc.ar(pitch2,mul:amp2*magx.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -436,7 +433,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-					SinOsc.ar(pitch3,mul:amp3*magz.rho.round(0.00000001),phase:0),
+					SinOsc.ar(pitch3,mul:amp3*magx.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -568,7 +565,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(1/8);
+	TempoClock.default.tempo_(1/1);
 
 
 
