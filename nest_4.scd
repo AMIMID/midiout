@@ -531,7 +531,9 @@ SynthDef.new(\ospace1, {
 				env=EnvGen.ar(Env.perc(0.04,decay,amp),doneAction:2,levelScale:1/2);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
 
-fundamental=(12*6);
+//fundamental=(12*6);
+
+fundamental=(12*36*2);
 freq=(fundamental*octave);
 
 sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
@@ -539,13 +541,12 @@ sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
 
-
-//ton1=n1.abs*mult1;
-//ton2=n2.abs*mult2;
-//ton3=n3.abs*mult3;
-ton1=n1.abs;
-ton2=n2.abs;
-ton3=n3.abs;
+//ton1=n1.abs;
+//ton2=n2.abs;
+//ton3=n3.abs;
+ton1=2.pow(n1/12);
+ton2=2.pow(n2/12);
+ton3=2.pow(n3/12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -610,9 +611,9 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~dur,1),
 			//\dur,1,
 			\pl1,Pbrown(1,4680,13,inf),
-/*	\pl1,Pseq([
+	\pl1,Pseq([
 				Prand(
-				[Pseq(Array.rand(3,0,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
+				[Pseq(Array.rand(3,1,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
 				Pseq(Array.rand(3,52,64),1),Pseq(Array.rand(3,65,77),1),Pseq(Array.rand(3,78,90),1),Pseq(Array.rand(3,91,103),1)]
 				,1),
 				Prand(
@@ -643,7 +644,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				[Pseq(Array.rand(3,728,740),1),Pseq(Array.rand(3,741,753),6,1),Pseq(Array.rand(3,754,766),1),Pseq(Array.rand(3,767,779),1),
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
-			],inf),*/
+			],inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -658,9 +659,9 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
 		\dur,Pseq(~dur,1),
 		//\dur,1.5,
-			/*\pl1,Pseq([
+			\pl1,Pseq([
 				Prand(
-				[Pseq(Array.rand(3,0,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
+				[Pseq(Array.rand(3,1,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
 				Pseq(Array.rand(3,52,64),1),Pseq(Array.rand(3,65,77),1),Pseq(Array.rand(3,78,90),1),Pseq(Array.rand(3,91,103),1)]
 				,1),
 				Prand(
@@ -691,8 +692,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				[Pseq(Array.rand(3,728,740),1),Pseq(Array.rand(3,741,753),6,1),Pseq(Array.rand(3,754,766),1),Pseq(Array.rand(3,767,779),1),
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
-			],inf),*/
-			\pl1,Pbrown(1,4680,13,inf),
+			],inf),
+			//\pl1,Pbrown(1,4680,13,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -706,7 +707,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(1/4);
+	TempoClock.default.tempo_(3/1);
 
 
 
