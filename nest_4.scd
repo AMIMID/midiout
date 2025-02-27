@@ -528,12 +528,12 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.04,decay,amp),doneAction:2,levelScale:1/2);
+				env=EnvGen.ar(Env.perc(0.04,decay,amp),doneAction:2,levelScale:0.1);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
 
 //fundamental=(12*6);
 
-fundamental=(12*36*2);
+fundamental=(12*36*8);
 freq=(fundamental*octave);
 
 sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
@@ -544,9 +544,9 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 //ton1=n1.abs;
 //ton2=n2.abs;
 //ton3=n3.abs;
-ton1=2.pow(n1/12);
-ton2=2.pow(n2/12);
-ton3=2.pow(n3/12);
+ton1=2.pow(n1/9);
+ton2=2.pow(n2/9);
+ton3=2.pow(n3/9);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -707,7 +707,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(3/1);
+	TempoClock.default.tempo_(1/8.);
 
 
 
