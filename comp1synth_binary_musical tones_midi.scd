@@ -540,13 +540,12 @@ freq=(fundamental*octave);
 
 				sphere=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
-	n2=(n1+5);n3=(n1+7);
-				xyz=[n1,n2,n3].normalizeSum.sqrt*mult1;
+//n2=(n1+5);n3=(n1+7);
+				xyz=[n1,n2,n3].normalizeSum.sqrt;
+				cart=Cartesian(xyz[0],xyz[1],xyz[2]);
+				sph=Spherical(64,cart.theta,cart.phi);
 
-
-				ton1=xyz.[0];
-				ton2=xyz.[1];
-				ton3=xyz[2];
+				ton1=2.pow(sph.x/12);ton2=2.pow(sph.y/12);ton3=2.pow(sph.z/12);
 
 
 	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
